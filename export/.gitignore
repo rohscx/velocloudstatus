@@ -71,9 +71,3 @@ export/*.txt
 export/*.json
 older/
 jobs/*.js
-export/downEdges.txt
-export/edgeData.txt
-export/edgeMgmtIp.txt
-export/downEdges.txt
-export/edgeData.txt
-export/edgeMgmtIp.txt
