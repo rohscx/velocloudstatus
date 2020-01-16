@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.1.0",
+    "json2csv": "^4.5.4",
     "nodeutilz": "^1.0.5",
     "request": "^2.88.0"
   }
