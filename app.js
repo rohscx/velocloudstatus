@@ -12,7 +12,7 @@ const filePath1 = './export/edgeData.json';
 const filePath2 = './export/downEdges.json';
 const filePath3 = './export/edgeNetworks.json';
 const filePath4 = './export/authCheck.json';
-const filePath5 = (data) => `./export/csv/buisnessPolicies_${data}.csv`;
+const filePath5 = (data) => `./export/csv/edgeSpecificBuisnessPolicies_${data}.csv`;
 const fileEncoding = 'utf8';
 
 // Validates that the API is reachable and returning good data about the target enterprise
