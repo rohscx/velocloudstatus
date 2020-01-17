@@ -8,10 +8,10 @@ const authCheck = require('./actions/authCheck.js');
 const buisnessPolicy = require('./actions/buisnessPolicy.js');
 const {objectKeyFilter, writeFile, flattenArray} = require('nodeutilz');
 
-const filePath1 = './export/edgeData.json';
-const filePath2 = './export/downEdges.json';
-const filePath3 = './export/edgeNetworks.json';
-const filePath4 = './export/authCheck.json';
+const filePath1 = './export/json/edgeData.json';
+const filePath2 = './export/json/downEdges.json';
+const filePath3 = './export/json/edgeNetworks.json';
+const filePath4 = './export/json/authCheck.json';
 const filePath5 = (data) => `./export/csv/edgeSpecificBuisnessPolicies_${data}.csv`;
 const fileEncoding = 'utf8';
 
