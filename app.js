@@ -4,15 +4,18 @@ const enterpriseIdOptions = require('./actions/enterpriseIdOptions.js');
 const dataFilter = require('./actions/dataFilter.js');
 const enterpriseId = require('./actions/enterpriseId.js');
 const enterpriseEdge = require('./actions/enterpriseEdge.js');
+const enterpriseUsers = require('./actions/enterpriseUsers.js');
 const authCheck = require('./actions/authCheck.js');
 const buisnessPolicy = require('./actions/buisnessPolicy.js');
-const {objectKeyFilter, writeFile, flattenArray} = require('nodeutilz');
-
+const {objectKeyFilter, writeFile, flattenArray,readFile} = require('nodeutilz');
+const { Parser } = require('json2csv');
 const filePath1 = './export/json/edgeData.json';
 const filePath2 = './export/json/downEdges.json';
 const filePath3 = './export/json/edgeNetworks.json';
 const filePath4 = './export/json/authCheck.json';
 const filePath5 = (data) => `./export/csv/edgeSpecificBuisnessPolicies_${data}.csv`;
+const filePath6 = (data) => `./export/json/enterpriseUsers_${data}.json`;
+const filePath7 = (data) => `./export/csv/enterpriseUsers_${data}.csv`;
 const fileEncoding = 'utf8';
 
 // Validates that the API is reachable and returning good data about the target enterprise
@@ -91,6 +94,29 @@ auth()
     .then((t) => Promise.all(t.map((d,i) => writeFile(filePath5(i),d,fileEncoding))))
     .then(console.log)
     .catch(console.log)
+
+auth()
+    .then((t) => authCookie(t))
+    .then((t) => dataFilter(t,(data) => data.metaData.auth == true))
+    .then((t) => enterpriseIdOptions(t))
+    .then((t) => enterpriseId(t))
+    .then((t) => enterpriseUsers(t))
+    .then((t) => objectKeyFilter(t,["enterprise"]))
+    .then((t) => Promise.all(t.map(({enterprise:{enterpriseName,enterpriseEdge}}) => writeFile(filePath6(enterpriseName),JSON.stringify(flattenArray(enterpriseEdge),null,'\t'),fileEncoding))))
+    .then((t) => Promise.all(t.map((d) => readFile(d).then((t) => {
+        const jsonData = JSON.parse(t);
+        const renameFile = d.split('.json')[0];
+        const fileName = renameFile.split('/')[3].split("_")[1];
+        const objectKeys = ["username", "firstName","lastName","email","isActive","lastLogin","modified","roleName"];
+        const opts = { fields: objectKeys};
+        const myparseData = new Parser(opts);
+        const csv = myparseData.parse(jsonData); 
+        return writeFile(filePath7(fileName),csv,fileEncoding)
+
+    } ) )))
+    .then(console.log)
+    .catch(console.log)
+    
 }
 
 
