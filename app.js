@@ -78,7 +78,7 @@ auth()
     .then((t) => enterpriseId(t))
     .then((t) => enterpriseEdge(t))
     .then((t) => objectKeyFilter(t,["enterprise"]))
-    .then(t => Promise.all(flattenArray(t.map((d) => d.enterprise.enterpriseEdge.map((d) => d))).map((d) => ({name: d.name, serial:d.serialNumber, mgmt: d.configuration.enterprise.modules[0].edgeSpecificData.lan.management, networks: d.configuration.enterprise.modules[0].edgeSpecificData.lan.networks, networks: d.configuration.enterprise.modules[0].edgeSpecificData.lan.networks}))))
+    .then(t => Promise.all(flattenArray(t.map((d) => d.enterprise.enterpriseEdge.map((d) => d))).map((d) => ({name: d.name, modelNumber:d.modelNumber, serial:d.serialNumber, mgmt: d.configuration.enterprise.modules[0].edgeSpecificData.lan.management, networks: d.configuration.enterprise.modules[0].edgeSpecificData.lan.networks, networks: d.configuration.enterprise.modules[0].edgeSpecificData.lan.networks}))))
     .then((t) => writeFile(filePath3,JSON.stringify(t),fileEncoding))
     .then(console.log)
     .catch(console.log)
@@ -107,28 +107,12 @@ auth()
         const jsonData = JSON.parse(t);
         const renameFile = d.split('.json')[0];
         const fileName = renameFile.split('/')[3].split("_")[1];
-        const objectKeys = ["username", "firstName","lastName","email","isActive","lastLogin","modified","roleName"];
+        const objectKeys = ["username", "firstName","lastName","email","isActive","isLocked","lastLogin","modified","roleName"];
         const opts = { fields: objectKeys};
         const myparseData = new Parser(opts);
         const csv = myparseData.parse(jsonData); 
-        return writeFile(filePath7(fileName),csv,fileEncoding)
-
+        return writeFile(filePath7(fileName),csv,fileEncoding);
     } ) )))
     .then(console.log)
     .catch(console.log)
-    
 }
-
-
-
-
-
-
-
-// const managementIp = allData.getEnterpriseEdgesGeneralData.map((d) => d.map((d) => {
-//         const {edgeState,enterpriseId,name,managmentData} = d.enterpriseEdge;
-//         return {edgeState,enterpriseId,name,managmentData,enterpriseId};
-// })) 
-
-
-
