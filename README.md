@@ -1,2 +1,6 @@
 # velocloudstatus
 velocloudstatus
+
+
+## .env formating
+VELO_AUTH = [{"method":"POST","url":"https://vco18-usvi1.velocloud.net","uri":"/portal/rest/login/enterpriseLogin","uName":"<emailAddress>","uPass":"<passwprd>"},{"method":"POST","url":"https://vco18-usvi1.velocloud.net","uri":"/portal/rest/login/enterpriseLogin","uName":"yoda.com","uPass":"sith"},{"method":"POST","url":"https://vco18-usvi1.velocloud.net","uri":"/portal/rest/login/enterpriseLogin","uName":"<emailAddress>","uPass":"<passwprd>"},{"method":"POST","url":"https://vco18-usvi1.velocloud.net","uri":"/portal/rest/login/enterpriseLogin","uName":"<emailAddress>","uPass":"<passwprd>"},{"method":"POST","url":"https://vco18-usvi1.velocloud.net","uri":"/portal/rest/login/enterpriseLogin","uName":"<emailAddress>","uPass":"<passwprd>"},{"method":"POST","url":"https://vco18-usvi1.velocloud.net","uri":"/portal/rest/login/enterpriseLogin","uName":"<emailAddress>","uPass":"<passwprd>"},{"method":"POST","url":"https://vco18-usvi1.velocloud.net","uri":"/portal/rest/login/enterpriseLogin","uName":"<emailAddress>","uPass":"<passwprd>"}, ...]

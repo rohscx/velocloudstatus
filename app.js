@@ -13,6 +13,7 @@ const filePath1 = './export/json/edgeData.json';
 const filePath2 = './export/json/downEdges.json';
 const filePath3 = './export/json/edgeNetworks.json';
 const filePath4 = './export/json/authCheck.json';
+const filePath8 = './export/json/edgeSerialNumbers.json';
 const filePath5 = (data) => `./export/csv/edgeSpecificBuisnessPolicies_${data}.csv`;
 const filePath6 = (data) => `./export/json/enterpriseUsers_${data}.json`;
 const filePath7 = (data) => `./export/csv/enterpriseUsers_${data}.csv`;
@@ -78,7 +79,7 @@ auth()
     .then((t) => enterpriseId(t))
     .then((t) => enterpriseEdge(t))
     .then((t) => objectKeyFilter(t,["enterprise"]))
-    .then(t => Promise.all(flattenArray(t.map((d) => d.enterprise.enterpriseEdge.map((d) => d))).map((d) => ({name: d.name, modelNumber:d.modelNumber, serial:d.serialNumber, mgmt: d.configuration.enterprise.modules[0].edgeSpecificData.lan.management, networks: d.configuration.enterprise.modules[0].edgeSpecificData.lan.networks, networks: d.configuration.enterprise.modules[0].edgeSpecificData.lan.networks}))))
+    .then(t => Promise.all(flattenArray(t.map((d) => d.enterprise.enterpriseEdge.map((d) => d))).map((d) => ({name: d.name, modelNumber:d.modelNumber, mgmt: d.configuration.enterprise.modules[0].edgeSpecificData.lan.management, networks: d.configuration.enterprise.modules[0].edgeSpecificData.lan.networks}))))
     .then((t) => writeFile(filePath3,JSON.stringify(t),fileEncoding))
     .then(console.log)
     .catch(console.log)
@@ -113,6 +114,18 @@ auth()
         const csv = myparseData.parse(jsonData); 
         return writeFile(filePath7(fileName),csv,fileEncoding);
     } ) )))
+    .then(console.log)
+    .catch(console.log)
+
+auth()
+    .then((t) => authCookie(t))
+    .then((t) => dataFilter(t,(data) => data.metaData.auth == true))
+    .then((t) => enterpriseIdOptions(t))
+    .then((t) => enterpriseId(t))
+    .then((t) => enterpriseEdge(t))
+    .then((t) => objectKeyFilter(t,["enterprise"]))
+    .then(t => Promise.all(flattenArray(t.map((d) => d.enterprise.enterpriseEdge.map((d) => d))).map((d) => ({name: d.name, modelNumber:d.modelNumber, serial:d.serialNumber, mgmt: d.configuration.enterprise.modules[0].edgeSpecificData.lan.management}))))
+    .then((t) => writeFile(filePath8,JSON.stringify(t),fileEncoding))
     .then(console.log)
     .catch(console.log)
 }
