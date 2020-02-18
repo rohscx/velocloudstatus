@@ -11,6 +11,8 @@ const edgeBuisnessPolicy = require('./actions/edgeBuisnessPolicy.js');
 const enterpriseBuisnessPolicy = require('./actions/enterpriseBuisnessPolicy.js');
 const {objectKeyFilter, writeFile, flattenArray,readFile} = require('nodeutilz');
 const { Parser } = require('json2csv');
+
+
 const filePath1 = './export/json/edgeData.json';
 const filePath2 = './export/json/downEdges.json';
 const filePath3 = './export/json/edgeNetworks.json';

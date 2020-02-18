@@ -12,13 +12,17 @@ module.exports = function (data){
             csvEnterpriseName = enterpriseName;
             return enterpriseEdge[0].reduce((n,o) => {
                 const {
-                    modules
+                    name,
+                    configuration:{
+                        enterprise:{
+                            modules
+                        }
+                    }
                 } = o;
-                if (!modules || modules.length <= 0) return []
                 const qos = modules[2];
             
                 const {
-                    data:{segments} = {segments:[]}
+                    edgeSpecificData = {edgeSpecificData:[]}
                 } = qos; 
             
                 const getEdgeRules = (data) => {
@@ -38,12 +42,12 @@ module.exports = function (data){
                     }
                     //return data.filter((f) => f.segments)
                 };
-                const rules = getEdgeRules(segments[0].rules)
+                const rules = getEdgeRules(edgeSpecificData)
                 const combinedResult = {name,rules,enterpriseName};
                 n.enterpriseName = enterpriseName;
-                n.combinedResult = combinedResult;
+                n.combinedResult.push(combinedResult);
                 return n;
-            },{})  
+            },{combinedResult:[]})  
         })
         //.filter((f) => f.rules.length > 0);//?
         const csv = result.map(({enterpriseName,combinedResult}) => {

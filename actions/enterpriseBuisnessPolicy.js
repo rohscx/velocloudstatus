@@ -44,9 +44,9 @@ module.exports = function (data){
                 const rules = getEdgeRules(data)
                 const combinedResult = {rules,enterpriseName};
                 n.enterpriseName = enterpriseName;
-                n.combinedResult = combinedResult;
+                n.combinedResult.push(combinedResult);
                 return n;
-            },{})  
+            },{combinedResult:[]})  
         })
         //.filter((f) => f.rules.length > 0);//?
         const csv = result.map(({enterpriseName,combinedResult}) => {
