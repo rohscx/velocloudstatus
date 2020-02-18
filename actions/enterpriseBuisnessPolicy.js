@@ -1,4 +1,6 @@
 const { Parser } = require('json2csv');
+const ntfsFileNameFormatter = require('./ntfsFileNameFormatter.js');
+
 module.exports = function (data){
     return new Promise((resolve) => {
     
@@ -13,8 +15,8 @@ module.exports = function (data){
             return enterpriseEdge[0].reduce((n,o) => {
               
                 const {
-      
-                            modules
+                    description,
+                    modules
 
                     } = o;
                 const qos = modules[2];
@@ -42,8 +44,8 @@ module.exports = function (data){
                 };
 
                 const rules = getEdgeRules(data)
-                const combinedResult = {rules,enterpriseName};
-                n.enterpriseName = enterpriseName;
+                const combinedResult = {rules,enterpriseName,description};
+                n.enterpriseName = `${ntfsFileNameFormatter(description)} ${enterpriseName}`;
                 n.combinedResult.push(combinedResult);
                 return n;
             },{combinedResult:[]})  

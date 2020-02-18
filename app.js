@@ -141,7 +141,7 @@ auth()
     .then((t) => enterpriseId(t))
     .then((t) => enterpriseConfigurations(t))
     .then((t) => enterpriseBuisnessPolicy(t))
-    .then((t) => Promise.all(t.map(({enterpriseName,csvData},i) => writeFile(filePath9(`${enterpriseName}_${i}`),csvData,fileEncoding))))
+    .then((t) => Promise.all(t.map(({enterpriseName,description,csvData},i) => writeFile(filePath9(`${enterpriseName}`),csvData,fileEncoding))))
     .then(console.log)
     .catch(console.log)
 }
