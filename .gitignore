@@ -75,7 +75,7 @@ export/text/*.txt
 export/temp/*.json
 export/temp/*.csv
 export/temp/*.txt
-older/
+archive/
 export/downEdges.txt
 export/edgeData.txt
 export/edgeMgmtIp.txt

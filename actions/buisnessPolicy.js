@@ -1,6 +1,7 @@
 const { Parser } = require('json2csv');
 module.exports = function (data){
     return new Promise((resolve) => {
+
         const result = data.map((d) => {
             const {
                 enterprise:{
@@ -8,7 +9,8 @@ module.exports = function (data){
                     enterpriseName
                 }
             } = d;
-            return enterpriseEdge[0].map((d1) => {
+            csvEnterpriseName = enterpriseName;
+            return enterpriseEdge[0].reduce((n,o) => {
                 const {
                     name,
                     configuration:{
@@ -16,7 +18,7 @@ module.exports = function (data){
                             modules
                         }
                     }
-                } = d1;
+                } = o;
                 const qos = modules[2];
             
                 const {
@@ -42,15 +44,17 @@ module.exports = function (data){
                 };
                 const rules = getEdgeRules(edgeSpecificData)
                 const combinedResult = {name,rules,enterpriseName};
-                return combinedResult;
-            })  
+                n.enterpriseName = enterpriseName;
+                n.combinedResult = combinedResult;
+                return n;
+            },{})  
         })
         //.filter((f) => f.rules.length > 0);//?
-        const csv = result.map((d) => {
+        const csv = result.map(({enterpriseName,combinedResult}) => {
             const fields = ['enterpriseName','name', 'rules.name', 'rules.dip', 'rules.svlan','rules.routePolicy'];
             const json2csvParser = new Parser({fields,unwind:['rules']});
-            const csvData = json2csvParser.parse(d);
-            return csvData;
+            const csvData = json2csvParser.parse(combinedResult);
+            return {csvData,enterpriseName};
         })
         resolve(csv);
     })

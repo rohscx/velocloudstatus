@@ -92,7 +92,7 @@ auth()
     .then((t) => enterpriseEdge(t))
     .then((t) => objectKeyFilter(t,["enterprise"]))
     .then((t) => buisnessPolicy(t))
-    .then((t) => Promise.all(t.map((d,i) => writeFile(filePath5(i),d,fileEncoding))))
+    .then((t) => Promise.all(t.map(({enterpriseName,csvData},i) => writeFile(filePath5(`${enterpriseName}_${i}`),csvData,fileEncoding))))
     .then(console.log)
     .catch(console.log)
 
