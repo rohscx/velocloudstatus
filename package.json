@@ -9,10 +9,10 @@
   "author": "rohscx",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
     "json2csv": "^4.5.4",
-    "nodeutilz": "^1.2.2",
-    "request": "^2.88.0"
+    "nodeutilz": "^1.2.4",
+    "request": "^2.88.2"
   },
   "devDependencies": {}
 }

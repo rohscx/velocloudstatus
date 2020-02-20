@@ -9,12 +9,12 @@ const enterpriseConfigurations = require('./lib/enterpriseConfigurations');
 const authCheck = require('./lib/authCheck.js');
 const edgeBuisnessPolicy = require('./lib/edgeBuisnessPolicy.js');
 const enterpriseBuisnessPolicy = require('./lib/enterpriseBuisnessPolicy.js');
-const ntfsFileNameFormatter = require('./lib/ntfsFileNameFormatter.js');
 const {
   objectKeyFilter,
   writeFile,
   flattenArray,
   readFile,
+  formatFileNameNtfs,
 } = require('nodeutilz');
 const { Parser } = require('json2csv');
 
@@ -215,7 +215,11 @@ if (accountStatusCheck) {
     .then(t =>
       Promise.all(
         t.map(({ enterpriseName, description, csvData }, i) =>
-          writeFile(filePath9(`${ntfsFileNameFormatter(enterpriseName)}`), csvData, fileEncoding)
+          writeFile(
+            filePath9(`${formatFileNameNtfs(enterpriseName)}`),
+            csvData,
+            fileEncoding
+          )
         )
       )
     )
