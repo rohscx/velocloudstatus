@@ -126,7 +126,7 @@ if (accountStatusCheck) {
     .then(t =>
       Promise.all(
         t.map(({ enterpriseName, csvData }, i) =>
-          writeFile(filePath5(`${enterpriseName}`), csvData, fileEncoding)
+          writeFile(filePath5(`${formatFileNameNtfs(enterpriseName)}`), csvData, fileEncoding)
         )
       )
     )
@@ -144,7 +144,7 @@ if (accountStatusCheck) {
       Promise.all(
         t.map(({ enterprise: { enterpriseName, enterpriseEdge } }) =>
           writeFile(
-            filePath6(enterpriseName),
+            filePath6(formatFileNameNtfs(enterpriseName)),
             JSON.stringify(flattenArray(enterpriseEdge), null, '\t'),
             fileEncoding
           )
@@ -172,7 +172,7 @@ if (accountStatusCheck) {
             const opts = { fields: objectKeys };
             const myparseData = new Parser(opts);
             const csv = myparseData.parse(jsonData);
-            return writeFile(filePath7(fileName), csv, fileEncoding);
+            return writeFile(filePath7(formatFileNameNtfs(fileName)), csv, fileEncoding);
           })
         )
       )
