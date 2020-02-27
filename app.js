@@ -7,8 +7,10 @@ const enterpriseEdge = require('./lib/enterpriseEdge.js');
 const enterpriseUsers = require('./lib/enterpriseUsers.js');
 const enterpriseConfigurations = require('./lib/enterpriseConfigurations');
 const authCheck = require('./lib/authCheck.js');
-const edgeBuisnessPolicy = require('./lib/edgeBuisnessPolicy.js');
+const edgeBuisnessPolicyFirewall = require('./lib/edgeBuisnessPolicyFirewall.js');
+const edgeBuisnessPolicyNat = require('./lib/edgeBuisnessPolicyNat.js');
 const enterpriseBuisnessPolicy = require('./lib/enterpriseBuisnessPolicy.js');
+
 const {
   objectKeyFilter,
   writeFile,
@@ -23,10 +25,11 @@ const filePath2 = './export/json/downEdges.json';
 const filePath3 = './export/json/edgeNetworks.json';
 const filePath4 = './export/json/authCheck.json';
 const filePath8 = './export/json/edgeSerialNumbers.json';
-const filePath5 = data => `./export/csv/edgeBuisnessPolicies_${data}.csv`;
+const filePath5 = data => `./export/csv/edgeBuisnessPoliciesFirewall_${data}.csv`;
 const filePath6 = data => `./export/json/enterpriseUsers_${data}.json`;
 const filePath7 = data => `./export/csv/enterpriseUsers_${data}.csv`;
 const filePath9 = data => `./export/csv/enterpriseBuisnessPolicies_${data}.csv`;
+const filePath10 = data => `./export/csv/enterpriseBuisnessPoliciesNAT_${data}.csv`;
 const fileEncoding = 'utf8';
 
 // Validates that the API is reachable and returning good data about the target enterprise
@@ -122,7 +125,7 @@ if (accountStatusCheck) {
     .then(t => enterpriseId(t))
     .then(t => enterpriseEdge(t))
     .then(t => objectKeyFilter(t, ['enterprise']))
-    .then(t => edgeBuisnessPolicy(t))
+    .then(t => edgeBuisnessPolicyFirewall(t))
     .then(t =>
       Promise.all(
         t.map(({ enterpriseName, csvData }, i) =>
@@ -225,4 +228,23 @@ if (accountStatusCheck) {
     )
     .then(console.log)
     .catch(console.log);
+
+
+  auth()
+  .then(t => authCookie(t))
+  .then(t => dataFilter(t, data => data.metaData.auth == true))
+  .then(t => enterpriseIdOptions(t))
+  .then(t => enterpriseId(t))
+  .then(t => enterpriseEdge(t))
+  .then(t => objectKeyFilter(t, ['enterprise']))
+  .then(t => edgeBuisnessPolicyNat(t))
+  .then(t =>
+    Promise.all(
+      t.map(({ enterpriseName, csvData }, i) =>
+        writeFile(filePath10(`${formatFileNameNtfs(enterpriseName)}`), csvData, fileEncoding)
+      )
+    )
+  )
+  .then(console.log)
+  .catch(console.log);
 }
