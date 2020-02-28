@@ -4,11 +4,15 @@ const enterpriseIdOptions = require('./lib/enterpriseIdOptions.js');
 const dataFilter = require('./lib/dataFilter.js');
 const enterpriseId = require('./lib/enterpriseId.js');
 const enterpriseEdge = require('./lib/enterpriseEdge.js');
+const edgeConfigurationStack = require('./lib/edgeConfigurationStack.js');
+
 const enterpriseUsers = require('./lib/enterpriseUsers.js');
 const enterpriseConfigurations = require('./lib/enterpriseConfigurations');
 const authCheck = require('./lib/authCheck.js');
 const edgeBuisnessPolicyFirewall = require('./lib/edgeBuisnessPolicyFirewall.js');
 const edgeBuisnessPolicyNat = require('./lib/edgeBuisnessPolicyNat.js');
+const edgeBuisnessPolicy = require('./lib/edgeBuisnessPolicy.js');
+
 const enterpriseBuisnessPolicy = require('./lib/enterpriseBuisnessPolicy.js');
 
 const {
@@ -30,6 +34,8 @@ const filePath6 = data => `./export/json/enterpriseUsers_${data}.json`;
 const filePath7 = data => `./export/csv/enterpriseUsers_${data}.csv`;
 const filePath9 = data => `./export/csv/enterpriseBuisnessPolicies_${data}.csv`;
 const filePath10 = data => `./export/csv/enterpriseBuisnessPoliciesNAT_${data}.csv`;
+const filePath11 = data => `./export/json/enterpriseBuisnessPolicies_${data}.json`;
+const filePath12 = data => `./export/json/getEdgeConfigurationStack${data}.json`;
 const fileEncoding = 'utf8';
 
 // Validates that the API is reachable and returning good data about the target enterprise
@@ -247,4 +253,36 @@ if (accountStatusCheck) {
   )
   .then(console.log)
   .catch(console.log);
+
+  auth()
+  .then(t => authCookie(t))
+  .then(t => dataFilter(t, data => data.metaData.auth == true))
+  .then(t => enterpriseIdOptions(t))
+  .then(t => enterpriseId(t))
+  .then(t => enterpriseEdge(t))
+  .then(t => objectKeyFilter(t, ['enterprise']))
+  .then(t => edgeBuisnessPolicy(t))
+  .then(t =>
+    Promise.all(
+      t.map(({ enterpriseName, combinedResult }, i) =>
+        writeFile(filePath11(`${formatFileNameNtfs(enterpriseName)}`), JSON.stringify((combinedResult) , null, '\t'), fileEncoding)
+      )
+    )
+  )
+  // .then((t) => JSON.stringify(t,null,'\t'))
+  .then(console.log)
+  .catch(console.log);
+
+  auth()
+  .then(t => authCookie(t))
+  .then(t => dataFilter(t, data => data.metaData.auth == true))
+  .then(t => enterpriseIdOptions(t))
+  .then(t => enterpriseId(t))
+  .then(t => enterpriseEdge(t))
+  //.then(t => objectKeyFilter(t, ['enterprise']))
+  .then(t => edgeConfigurationStack(t))
+  .then((t) => writeFile(filePath12(``), JSON.stringify((t[0][0].testEmpty) , null, '\t'), fileEncoding))
+  .then(console.log)
+  .catch(console.log);
+
 }

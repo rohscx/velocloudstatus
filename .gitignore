@@ -84,3 +84,4 @@ export/edgeData.txt
 export/edgeMgmtIp.txt
 jobs/kurtsRequestForData.js
 jobs/vcomFceBranchNames.js
+jobs/updateEdgeQos.js
