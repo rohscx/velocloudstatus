@@ -9,6 +9,7 @@
   "author": "rohscx",
   "license": "ISC",
   "dependencies": {
+    "bottleneck": "^2.19.5",
     "dotenv": "^8.2.0",
     "json2csv": "^4.5.4",
     "nodeutilz": "^1.2.4",
