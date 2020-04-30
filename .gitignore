@@ -64,24 +64,16 @@ typings/
 security/
 security.js
 
-# Ignore text and JSON in folders
-import/*.txt
-import/*.json
-export/*.txt
-export/*.json
-export/json/*.json
-export/csv/*.csv
-export/text/*.txt
-export/temp/*.json
-export/temp/*.csv
-export/temp/*.txt
+
+# Custom
+securityConfiguration.js
+export/*/*[.png,.txt,.js,.json,.csv,.html]
+import/*/*[.png,.txt,.js,.json,.csv,.html]
+tasks/*/*[.png,.txt,.js,.json,.csv,.html]
+jobs/*/*[.png,.txt,.js,.json,.csv,.html]
+export/*[.png,.txt,.js,.json,.csv,.html]
+import/*[.png,.txt,.js,.json,.csv,.html]
+tasks/*[.png,.txt,.js,.json,.csv,.html]
+jobs/*[.png,.txt,.js,.json,.csv,.html]
 archive/
-export/downEdges.txt
-export/edgeData.txt
-export/edgeMgmtIp.txt
-export/downEdges.txt
-export/edgeData.txt
-export/edgeMgmtIp.txt
-jobs/kurtsRequestForData.js
-jobs/vcomFceBranchNames.js
-jobs/updateEdgeQos.js
+
